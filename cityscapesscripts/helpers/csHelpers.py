@@ -79,7 +79,9 @@ def getCsFileInfo(fileName):
     parts = parts[:-1] + parts[-1].split('.')
     if not parts:
         printError('Cannot parse given filename ({}). Does not seem to be a valid Cityscapes file.'.format(fileName))
-    if len(parts) == 5:
+    if len(parts) == 4:
+        csFile = CsFile(city="default", sequenceNb=parts[0], frameNb=parts[1], type="instanceIds", type2="", ext=parts[-1])
+    elif len(parts) == 5:
         csFile = CsFile(*parts[:-1], type2="", ext=parts[-1])
     elif len(parts) == 6:
         csFile = CsFile(*parts)

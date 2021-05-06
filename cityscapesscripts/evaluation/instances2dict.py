@@ -43,7 +43,7 @@ def instances2dict(imageFileList, verbose=False):
         imgCount += 1
 
         if verbose:
-            print("\rImages Processed: {}".format(imgCount), end=' ')
+            print("\rGround truth Images Processed: {}".format(imgCount), end=' ')
             sys.stdout.flush()
 
     if verbose:

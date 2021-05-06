@@ -87,7 +87,10 @@ def getPrediction( groundTruthFile , args ):
         args.predictionWalk = walk
 
     csFile = getCsFileInfo(groundTruthFile)
-    filePattern = "{}_{}_{}*.txt".format( csFile.city , csFile.sequenceNb , csFile.frameNb )
+    if csFile.city == "default":
+        filePattern = "{}_{}_*.txt".format( csFile.sequenceNb , csFile.frameNb )
+    else:
+        filePattern = "{}_{}_{}*.txt".format( csFile.city , csFile.sequenceNb , csFile.frameNb )
 
     predictionFile = None
     for root, filenames in args.predictionWalk:
@@ -134,6 +137,7 @@ args.distanceThs        = np.array( [  float('inf') , 100 , 50 ] )
 args.distanceConfs      = np.array( [ -float('inf') , 0.5 , 0.5 ] )
 
 args.gtInstancesFile    = os.path.join(os.path.dirname(os.path.realpath(__file__)),'gtInstances.json')
+args.gtInstancesFile    = 'gtInstances.json'
 args.distanceAvailable  = False
 args.JSONOutput         = True
 args.quiet              = False
@@ -697,6 +701,8 @@ def main():
         groundTruthImgList = glob.glob(args.groundTruthSearch)
         if not groundTruthImgList:
             printError("Cannot find any ground truth images to use for evaluation. Searched for: {}".format(args.groundTruthSearch))
+
+    if groundTruthImgList and not predictionImgList:
         # get the corresponding prediction for each ground truth imag
         for gt in groundTruthImgList:
             predictionImgList.append( getPrediction(gt,args) )
